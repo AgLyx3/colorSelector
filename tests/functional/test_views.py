@@ -6,7 +6,7 @@ def test_index_route(client):
     """Test if the index page loads successfully."""
     response = client.get("/")
     assert response.status_code == 200
-    assert b"<!DOCTYPE html>" in response.data  # Ensure HTML content is returned
+    assert b"<!DOCTYPE html>" in response.data
 
 def test_get_palette_success(client, mocker):
     """Test the /get_palette endpoint with valid color."""
