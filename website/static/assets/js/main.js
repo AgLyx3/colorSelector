@@ -52,14 +52,12 @@ function displayPalette(colors) {
     return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
   };
 
-  // Helper function to calculate contrast ratio
   const getContrastRatio = (l1, l2) => {
     const lighter = Math.max(l1, l2);
     const darker = Math.min(l1, l2);
     return (lighter + 0.05) / (darker + 0.05);
   };
 
-  // Helper function to convert hex to RGB
   const hexToRgb = (hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -70,32 +68,35 @@ function displayPalette(colors) {
   };
 
   const colorBoxes = colors.map((color, index) => {
+    const colorBoxWrapper = document.createElement('div');
+    colorBoxWrapper.className = 'color-box-wrapper m-2';
+    
     const colorBox = document.createElement('div');
-    colorBox.className = 'color-box m-2';
+    colorBox.className = 'color-box';
     colorBox.style.backgroundColor = color;
 
     const hexLabel = document.createElement('div');
     hexLabel.className = 'hex-label';
     hexLabel.textContent = color.toUpperCase();
     
-    // Add contrast icon container at the bottom of the color box
     const contrastIcon = document.createElement('div');
-    contrastIcon.className = 'contrast-icon mt-2'; // Changed ms-2 to mt-2 for margin-top instead of margin-left
+    contrastIcon.className = 'contrast-icon mt-2';
     contrastIcon.style.display = 'none';
     
     colorBox.appendChild(hexLabel);
-    colorBox.appendChild(contrastIcon);
+    colorBoxWrapper.appendChild(colorBox);
+    colorBoxWrapper.appendChild(contrastIcon);
     
-    return colorBox;
+    return colorBoxWrapper;
   });
 
-  colorBoxes.forEach((colorBox, index) => {
+  colorBoxes.forEach((colorBoxWrapper, index) => {
     const currentColor = colors[index];
     const rgb1 = hexToRgb(currentColor);
     const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
     
-    colorBox.addEventListener('mouseenter', () => {
-      colorBoxes.forEach((otherBox, otherIndex) => {
+    colorBoxWrapper.addEventListener('mouseenter', () => {
+      colorBoxes.forEach((otherWrapper, otherIndex) => {
         if (index !== otherIndex) {
           const otherColor = colors[otherIndex];
           const rgb2 = hexToRgb(otherColor);
@@ -103,9 +104,9 @@ function displayPalette(colors) {
           const contrast = getContrastRatio(lum1, lum2);
           
           if (contrast >= 4.5) {
-            const icon = otherBox.querySelector('.contrast-icon');
+            const icon = otherWrapper.querySelector('.contrast-icon');
             icon.innerHTML = '✓';
-            icon.style.color = '#00FF00';
+            icon.style.color = '#000000';
             icon.title = `Good contrast with ${currentColor}`;
             icon.style.display = 'block';
           }
@@ -113,17 +114,17 @@ function displayPalette(colors) {
       });
     });
     
-    colorBox.addEventListener('mouseleave', () => {
-      colorBoxes.forEach((otherBox, otherIndex) => {
+    colorBoxWrapper.addEventListener('mouseleave', () => {
+      colorBoxes.forEach((otherWrapper, otherIndex) => {
         if (index !== otherIndex) {
-          const icon = otherBox.querySelector('.contrast-icon');
+          const icon = otherWrapper.querySelector('.contrast-icon');
           icon.style.display = 'none';
           icon.innerHTML = '';
         }
       });
     });
     
-    paletteContainer.appendChild(colorBox);
+    paletteContainer.appendChild(colorBoxWrapper);
   });
   
   colorBar.appendChild(paletteContainer);
