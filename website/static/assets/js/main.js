@@ -1,223 +1,141 @@
-/**
-* Template Name: Yummy
-* Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-(function() {
-  "use strict";
-
-  /**
-   * Apply .scrolled class to the body as the page is scrolled down
-   */
-  function toggleScrolled() {
-    const selectBody = document.querySelector('body');
-    const selectHeader = document.querySelector('#header');
-    if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
-    window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
-  }
-
-  document.addEventListener('scroll', toggleScrolled);
-  window.addEventListener('load', toggleScrolled);
-
-  /**
-   * Mobile nav toggle
-   */
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-
-  function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn.classList.toggle('bi-list');
-    mobileNavToggleBtn.classList.toggle('bi-x');
-  }
-  mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
-
-  /**
-   * Hide mobile nav on same-page/hash links
-   */
-  document.querySelectorAll('#navmenu a').forEach(navmenu => {
-    navmenu.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
-      }
-    });
-
-  });
-
-  /**
-   * Toggle mobile nav dropdowns
-   */
-  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
-      e.preventDefault();
-      this.parentNode.classList.toggle('active');
-      this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-      e.stopImmediatePropagation();
-    });
-  });
-
-  /**
-   * Preloader
-   */
-  const preloader = document.querySelector('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove();
-    });
-  }
-
-  /**
-   * Scroll top button
-   */
-  let scrollTop = document.querySelector('.scroll-top');
-
-  function toggleScrollTop() {
-    if (scrollTop) {
-      window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
-    }
-  }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-
-  window.addEventListener('load', toggleScrollTop);
-  document.addEventListener('scroll', toggleScrollTop);
-
-  /**
-   * Animation on scroll function and init
-   */
-  function aosInit() {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }
-  window.addEventListener('load', aosInit);
-
-  /**
-   * Initiate glightbox
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Initiate Pure Counter
-   */
-  new PureCounter();
-
-  /**
-   * Init swiper sliders
-   */
-  function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
-      let config = JSON.parse(
-        swiperElement.querySelector(".swiper-config").innerHTML.trim()
-      );
-
-      if (swiperElement.classList.contains("swiper-tab")) {
-        initSwiperWithCustomPagination(swiperElement, config);
-      } else {
-        new Swiper(swiperElement, config);
-      }
-    });
-  }
-
-  window.addEventListener("load", initSwiper);
-
-  /**
-   * Correct scrolling position upon page load for URLs containing hash links.
-   */
-  window.addEventListener('load', function(e) {
-    if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
-        setTimeout(() => {
-          let section = document.querySelector(window.location.hash);
-          let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-          window.scrollTo({
-            top: section.offsetTop - parseInt(scrollMarginTop),
-            behavior: 'smooth'
-          });
-        }, 100);
-      }
-    }
-  });
-
-  /**
-   * Navmenu Scrollspy
-   */
-  let navmenulinks = document.querySelectorAll('.navmenu a');
-
-  function navmenuScrollspy() {
-    navmenulinks.forEach(navmenulink => {
-      if (!navmenulink.hash) return;
-      let section = document.querySelector(navmenulink.hash);
-      if (!section) return;
-      let position = window.scrollY + 200;
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
-        navmenulink.classList.add('active');
-      } else {
-        navmenulink.classList.remove('active');
-      }
-    })
-  }
-  window.addEventListener('load', navmenuScrollspy);
-  document.addEventListener('scroll', navmenuScrollspy);
-
-})();
-
-
-document.getElementById('searchBtn').addEventListener('click', function(e) {
+// Handle form submission
+document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
   e.preventDefault();
   
-  const ingredients = document.getElementById('recipesInput').value;
-  const resultsContainer = document.getElementById('recipe-results');
+  // Get selected colors
+  const selectedColors = Array.from(document.querySelectorAll('input[name="colorSelector"]:checked'))
+      .map(input => input.value);
   
-  // Show loading state
-  resultsContainer.innerHTML = '<div class="loading">Generating recipe...</div>';
+  // Get selected themes
+  const selectedThemes = Array.from(document.querySelectorAll('input[name="themeSelector"]:checked'))
+      .map(input => input.value);
   
-  fetch('/get_recipes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      ingredients: ingredients
-    })
+  // Get customize requirements
+  const customizeReq = document.getElementById('customize').value;
+  
+  // Prepare data for submission
+  const data = {
+      colors: selectedColors,
+      themes: selectedThemes,
+      requirements: customizeReq
+  };
+  
+  // Send data to backend
+  fetch('/generate_palette', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
   })
   .then(response => response.json())
   .then(data => {
-    if (data.success) {
-      // Convert line breaks in the text to HTML breaks
-      const formattedRecipe = data.recipe.replace(/\n/g, '<br>');
-      resultsContainer.innerHTML = `
-        <div class="recipe-card">
-          ${data.recipe}
-        </div>
-      `;
-    } else {
-      resultsContainer.innerHTML = `
-        <div class="error-message">
-          Failed to generate recipe. Please try again.
-        </div>
-      `;
-    }
+      if (data.status === 'success' && data.palette) {
+          displayPalette(data.palette);
+      } else {
+          throw new Error('Failed to generate palette');
+      }
   })
   .catch(error => {
-    resultsContainer.innerHTML = `
-      <div class="error-message">
-        An error occurred. Please try again later.
-      </div>
-    `;
-    console.error('Error:', error);
+      console.error('Error:', error);
+      document.getElementById('colorBar').innerHTML = 
+          '<div class="alert alert-danger">Failed to generate palette. Please try again.</div>';
   });
 });
+
+// Function to display the palette
+function displayPalette(colors) {
+  const colorBar = document.getElementById('colorBar');
+  colorBar.innerHTML = '';
+  
+  // Create container for colors
+  const paletteContainer = document.createElement('div');
+  paletteContainer.className = 'd-flex justify-content-center flex-wrap';
+  
+  // Helper function to calculate relative luminance
+  const getLuminance = (r, g, b) => {
+    let [rs, gs, bs] = [r/255, g/255, b/255].map(c => 
+      c <= 0.03928 ? c/12.92 : Math.pow((c + 0.055)/1.055, 2.4)
+    );
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  };
+
+  // Helper function to calculate contrast ratio
+  const getContrastRatio = (l1, l2) => {
+    const lighter = Math.max(l1, l2);
+    const darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+  };
+
+  // Helper function to convert hex to RGB
+  const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  };
+
+  // Create all color boxes first
+  const colorBoxes = colors.map((color, index) => {
+    const colorBox = document.createElement('div');
+    colorBox.className = 'color-box m-2';
+    colorBox.style.backgroundColor = color;
+    
+    // Add hex code label
+    const hexLabel = document.createElement('div');
+    hexLabel.className = 'hex-label';
+    hexLabel.textContent = color.toUpperCase();
+    
+    // Add contrast icon container at the bottom of the color box
+    const contrastIcon = document.createElement('div');
+    contrastIcon.className = 'contrast-icon mt-2'; // Changed ms-2 to mt-2 for margin-top instead of margin-left
+    contrastIcon.style.display = 'none';
+    
+    colorBox.appendChild(hexLabel);
+    colorBox.appendChild(contrastIcon);
+    
+    return colorBox;
+  });
+
+  // Add hover events and calculate contrasts
+  colorBoxes.forEach((colorBox, index) => {
+    const currentColor = colors[index];
+    const rgb1 = hexToRgb(currentColor);
+    const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+    
+    colorBox.addEventListener('mouseenter', () => {
+      colorBoxes.forEach((otherBox, otherIndex) => {
+        if (index !== otherIndex) {
+          const otherColor = colors[otherIndex];
+          const rgb2 = hexToRgb(otherColor);
+          const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+          const contrast = getContrastRatio(lum1, lum2);
+          
+          if (contrast >= 4.5) { // WCAG AA standard for normal text
+            const icon = otherBox.querySelector('.contrast-icon');
+            icon.innerHTML = '✓';
+            icon.style.color = '#00FF00';
+            icon.title = `Good contrast with ${currentColor}`;
+            icon.style.display = 'block';
+          }
+        }
+      });
+    });
+    
+    colorBox.addEventListener('mouseleave', () => {
+      colorBoxes.forEach((otherBox, otherIndex) => {
+        if (index !== otherIndex) {
+          const icon = otherBox.querySelector('.contrast-icon');
+          icon.style.display = 'none';
+          icon.innerHTML = '';
+        }
+      });
+    });
+    
+    paletteContainer.appendChild(colorBox);
+  });
+  
+  colorBar.appendChild(paletteContainer);
+}

@@ -8,27 +8,27 @@ def test_index_route(client):
     assert response.status_code == 200
     assert b"<!DOCTYPE html>" in response.data  # Ensure HTML content is returned
 
-def test_get_recipes_success(client, mocker):
-    """Test the /get_recipes endpoint with valid ingredients."""
-    mock_model = mocker.patch("website.views.genai.GenerativeModel")
-    mock_instance = mock_model.return_value
-    mock_instance.generate_content.return_value.text = (
-        "<h1>Sample Recipe</h1>"
-        '<div class="section"><h2>Ingredients</h2><ul><li>Tomato</li></ul></div>'
+def test_get_palette_success(client, mocker):
+    """Test the /get_palette endpoint with valid color."""
+    mock_client = mocker.patch("website.views.anthropic.Anthropic")
+    mock_instance = mock_client.return_value
+    mock_instance.messages.create.return_value.content = (
+        "[\"#FF5733\", \"#33FF57\", \"#5733FF\", \"#FF33F5\"]"
     )
 
-    response = client.post("/get_recipes", json={"ingredients": "tomato"})
+    response = client.post("/get_palette", json={"color": "#FF0000"})
 
     assert response.status_code == 200
     assert response.json["success"] is True
-    assert "<h1>Sample Recipe</h1>" in response.json["recipe"]
+    assert len(response.json["palette"]) == 4
+    assert all(color.startswith("#") for color in response.json["palette"])
 
-def test_get_recipes_error(client, mocker):
-    """Test the /get_recipes endpoint when an API error occurs."""
-    mock_model = mocker.patch("website.views.genai.GenerativeModel")
-    mock_model.return_value.generate_content.side_effect = Exception("API Error")
+def test_get_palette_error(client, mocker):
+    """Test the /get_palette endpoint when an API error occurs."""
+    mock_client = mocker.patch("website.views.anthropic.Anthropic")
+    mock_client.return_value.messages.create.side_effect = Exception("API Error")
 
-    response = client.post("/get_recipes", json={"ingredients": "tomato"})
+    response = client.post("/get_palette", json={"color": "#FF0000"})
 
     assert response.status_code == 400
     assert response.json["success"] is False

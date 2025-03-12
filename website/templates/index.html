@@ -1,129 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Yummy Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-
-  <!-- Favicons -->
-  <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon">
-  <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-  
-  <!-- Main CSS File -->
-  <link href="{{url_for('static', filename = 'assets/css/main.css')}}" rel="stylesheet">
-
-
-  <!-- =======================================================
-  * Template Name: Yummy
-  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Suggest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0g3m7deQ9S2v1dc9gqR4+hFzpt9FEhFPRZ2zjz4cO/a5m15s" crossorigin="anonymous">
+    <link href="{{url_for('static', filename = 'assets/css/main.css')}}" rel="stylesheet">
 </head>
-
-<body class="index-page">
-
-  <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container position-relative d-flex align-items-center justify-content-between">
-
-      <a href="{{ url_for('main.index') }}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">Recipes AI</h1>
-        <span>.</span>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home<br></a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar text-center py-3 bg-light">
+        <h3>Color Palette Suggest</h3>
     </div>
-  </header>
 
-  <main class="main">
+    <!-- Main Content -->
+    <div class="container d-flex flex-column align-items-center mt-4">
+        <h2 class="text-center">Choose Your Color Theme</h2>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero section light-background">
-      <div class="container">
-        <div class="row gy-4 justify-content-center justify-content-lg-between">
-          <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1 data-aos="fade-up">Get Your Own<br>Recipes</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Input your available ingredients</p>
-            <div class="search-box" data-aos="fade-up" data-aos-delay="150">
-              <input type="text" id="recipesInput" class="form-control" placeholder="Let's start...">
+        <!-- Color Selector -->
+        <div class="color-selector text-center mt-4">
+            <label for="colorSelector" class="text-center fw-bold mb-3 h4">Select Color(s):</label>
+            <div class="btn-group w-75 mx-auto d-flex flex-column" role="group" aria-label="Color options"></div>
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="red" value="red" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="red">Red <span style="display:inline-block;width:20px;height:20px;background-color:red;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="blue" value="blue" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="blue">Blue <span style="display:inline-block;width:20px;height:20px;background-color:blue;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="green" value="green" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="green">Green <span style="display:inline-block;width:20px;height:20px;background-color:green;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="yellow" value="yellow" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="yellow">Yellow <span style="display:inline-block;width:20px;height:20px;background-color:yellow;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="orange" value="orange" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="orange">Orange <span style="display:inline-block;width:20px;height:20px;background-color:orange;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="pink" value="pink" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="pink">Pink <span style="display:inline-block;width:20px;height:20px;background-color:pink;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="purple" value="purple" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="purple">Purple <span style="display:inline-block;width:20px;height:20px;background-color:purple;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="brown" value="brown" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="brown">Brown <span style="display:inline-block;width:20px;height:20px;background-color:brown;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="black" value="black" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="black">Black <span style="display:inline-block;width:20px;height:20px;background-color:black;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
+                <div class="form-check-inline mx-2">
+                    <input class="btn-check" type="checkbox" name="colorSelector" id="white" value="white" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="white">White <span style="display:inline-block;width:20px;height:20px;background-color:white;border:1px solid #ccc;vertical-align:middle;border-radius:3px;"></span></label>
+                </div>
             </div>
-            <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-              <a href="#" id="searchBtn" class="btn-get-started">Tell me the recipes!</a>
-            </div>
-          </div>
-          <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-            <img src="{{url_for('static', filename = 'assets/img/hero-img.png')}}" class="img-fluid animated" alt="">
-          </div>
         </div>
-      </div>
-    </section><!-- /Hero Section -->
+        
 
-    <section>
-      <div id="recipe-results"></div>
-    </section>
+        <!-- Theme Selector -->
+        <div class="theme-selector text-center mt-4">
+            <label for="themeSelector" class="text-center fw-bold mb-3 h4">Select Theme(s):</label>
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="themeSelector" id="warm" value="warm" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="warm">Warm</label>
+                </div>
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="themeSelector" id="cool" value="cool" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="cool">Cool</label>
+                </div>
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="themeSelector" id="neutral" value="neutral" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="neutral">Neutral</label>
+                </div>
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="themeSelector" id="earthy" value="earthy" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="earthy">Earthy</label>
+                </div>
+                <div class="form-check-inline mx-2 mb-2">
+                    <input class="btn-check" type="checkbox" name="themeSelector" id="vibrant" value="vibrant" data-previous="false" autocomplete="off">
+                    <label class="btn btn-outline-primary shadow-hover" for="vibrant">Vibrant</label>
+                </div>
+            </div>
+        </div>
+        
+        <!--Customize requirements-->
+        <input type="text" id="customize" class="form-control mt-4" placeholder="Customize requirements ">
 
-    <!-- Add JavaScript for form submission -->
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success mt-4">
+            <i class="fas fa-palette"></i> Submit
+        </button>
 
-  </main>
-
-  <footer id="footer" class="footer dark-background">
-
-  
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a>
-      </div>
+        <div>
+            <p class="mt-4 h6">
+                <strong>Note:</strong> The checkmark indicates that the color pass 4.5:1 contrast ratio for text display.
+            </p>
+        </div>
+        <!-- Color Bar -->
+        <div id="colorBar" class="theme-box mt-4 w-75 text-center p-3 border rounded d-flex justify-content-center align-items-center mx-auto">
+            <!-- Color preview will appear here -->
+        </div>
     </div>
 
-  </footer>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-  
-  <!-- Main JS File -->
-  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
-  
-
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
