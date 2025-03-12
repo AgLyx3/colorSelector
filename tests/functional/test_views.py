@@ -16,7 +16,7 @@ def test_get_palette_success(client, mocker):
         "[\"#FF5733\", \"#33FF57\", \"#5733FF\", \"#FF33F5\"]"
     )
 
-    response = client.post("/generate_palette", json={"color": "#FF0000"})
+    response = client.post("/generate_palette", json={"colors": "#FF0000"})
 
     assert response.status_code == 200
     assert response.json["success"] is True
@@ -28,7 +28,7 @@ def test_get_palette_error(client, mocker):
     mock_client = mocker.patch("website.views.genai.GenerativeModel")
     mock_client.return_value.messages.create.side_effect = Exception("API Error")
 
-    response = client.post("/generate_palette", json={"color": "#FF0000"})
+    response = client.post("/generate_palette", json={"colors": "#FF0000"})
 
     assert response.status_code == 400
     assert response.json["success"] is False
