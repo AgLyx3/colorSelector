@@ -12,7 +12,9 @@ def test_get_palette_success(client, mocker):
     """Test the /generate_palette endpoint with valid color."""
     mock_client = mocker.patch("website.views.genai.GenerativeModel")
     mock_instance = mock_client.return_value
-    mock_instance.messages.create.return_value.text = "[\"#FF5733\", \"#33FF57\", \"#5733FF\", \"#FF33F5\"]"
+    mock_instance.messages.create.return_value.text = (
+        "[\"#FF5733\", \"#33FF57\", \"#5733FF\", \"#FF33F5\"]"
+    )
 
     response = client.post("/generate_palette", json={"colors": "#FF0000"})
 

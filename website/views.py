@@ -16,6 +16,8 @@ def extract_colors(text):
     """
     Extract hexadecimal color codes from a string.
     """
+    if not isinstance(text, str):  
+        text = str(text)
     pattern = r'#[0-9A-Fa-f]{6}'
     colors = re.findall(pattern, text)
     return colors
