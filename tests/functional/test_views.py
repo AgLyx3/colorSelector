@@ -9,7 +9,7 @@ def test_index_route(client):
     assert b"<!DOCTYPE html>" in response.data
 
 def test_get_palette_success(client, mocker):
-    """Test the /get_palette endpoint with valid color."""
+    """Test the /generate_palette endpoint with valid color."""
     mock_client = mocker.patch("website.views.genai.GenerativeModel")
     mock_instance = mock_client.return_value
     mock_instance.messages.create.return_value.content = (
@@ -24,7 +24,7 @@ def test_get_palette_success(client, mocker):
     assert all(color.startswith("#") for color in response.json["palette"])
 
 def test_get_palette_error(client, mocker):
-    """Test the /get_palette endpoint when an API error occurs."""
+    """Test the /generate_palette endpoint when an API error occurs."""
     mock_client = mocker.patch("website.views.genai.GenerativeModel")
     mock_client.return_value.messages.create.side_effect = Exception("API Error")
 
